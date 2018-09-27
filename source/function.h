@@ -10,5 +10,6 @@ struct Function;
 
 struct Operand;
 
-int64_t evaluate(struct Function (*func)(char name[NAME_SIZE]), ... );
+struct Arguments;
 
+int64_t evaluate(struct Function func, struct Arguments arg);

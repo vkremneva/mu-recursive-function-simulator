@@ -3,42 +3,59 @@
 struct Function {
     char name[NAME_SIZE];
     char operator;
-    bool left_is_primitive;
-    bool right_is_primitive;
-    int64_t (*left_primitive)(uint32_t, ... );
-    int64_t (*right_primitive)(uint32_t, ... );
-    struct Operand (*left)(struct Operand);
-    struct Operand (*right)(struct Operand);
+    bool is_primitive;
+    struct Operand *left;
+    struct Operand *right;
 };
 
 struct Operand {
-    //idk yet
-    int8_t arity;
-    int64_t (*funcPtr[MAX_ARITY])(uint32_t, ... )
+    struct Functin *func;
 };
 
-int64_t evaluate(struct Function (*func)(char name[NAME_SIZE]), ... ) {
-    int64_t result = -1;
-    va_list argptr;
-    va_start(argptr, func);
-    va_arg(argptr, struct Function);
+struct Arguments {
+    int8_t arity;
+    int64_t args[MAX_ARITY];
+};
 
-    if (func(argptr).left_is_primitive)
-        //а если я хочу передать все аргументы, а не только первый?
-        //result = func(argptr).left_primitive(va_copy(va_list dest, argptr));
-    else if (func(argptr).right_is_primitive)
-        //result = func(argptr).right_primitive(va_copy(va_list dest, argptr));
-    else {
-        switch (func(argptr).operator) {
-            case '0': result = 1;
-            case 'P': result = 2;
-            case 'R': result = 3;
-            case 'M': result = 4;
-            default: fprintf(stderr, "Error: Unknown operator %c", func(argptr).operator);
+int64_t evaluate(struct Function func, struct Arguments arg) {
+    int64_t result = -1;
+    int8_t ind;
+
+    if (func.is_primitive) {
+        switch (func.name[0]) {
+            case 'Z':
+                result = Z(arg.args[0]); break;
+            case 'S':
+                result = S(arg.args[0]); break;
+            case 'R':
+                //name of P looks like P,k,m where k and m are integer values
+                result = P(arg.args[2] - '0', arg.args[4] - '0', arg.args); break;
+
+                //найти и использовать функции, определенные выше во входном файле
+            default:
+                fprintf(stderr, "Error: Unknown operator %c", func.name[0]);
+                ind = 1;
+                while(func.name[ind] != '\0') {
+                    fprintf(stderr, "%c", func.name[ind]);
+                    ind++;
+                }
+                fprintf(stderr, "\n");
+        }
+
+    } else {
+        switch (func.operator) {
+            case '0':
+                result = 1; break;
+            case 'P':
+                result = 2; break;
+            case 'R':
+                result = 3; break;
+            case 'M':
+                result = 4; break;
+            default:
+                fprintf(stderr, "Error: Unknown operator %c", func.operator);
         }
     }
-
-    va_end(argptr);
 
     if (result < 0) {
         fprintf(stderr, "Error: Something went wrong when evaluating primitive functions");
