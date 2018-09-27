@@ -2,21 +2,27 @@
 //#include <ctype.h> //classify and convert single characters
 
 #include "recursive_functions.h"
+#include "function.h"
 
 int main(int argc, char *argv[]) {
-	
-	#define MAX_LINE 512
+
+	bool err = false;
 	
 	if (argc == 1) {
-		fpruintf(stderr, "Error: Specify file with the input data\n");
-		exit(1);
+		fprintf(stderr, "Error: Specify file with the input data\n");
+		err = true;
 	}
 	
 	FILE *finput = fopen(argv[1], "r");
-	if (fp == NULL) {
-		fpruintf(stderr, "Error: Cannot open the file: %s\n", argv[1]);
-		exit(1);
+	if (finput == NULL) {
+		fprintf(stderr, "Error: Cannot open the file: %s\n", argv[1]);
+		err = true;
 	}
+
+	if (!err) {
+
+	} else
+		return 1;
 	
 	fclose(finput);
 	

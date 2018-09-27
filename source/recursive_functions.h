@@ -1,17 +1,19 @@
+#pragma once
+
 #include <stdbool.h>
+#include <stdint.h>
 #include <stdarg.h>
 #include <stdio.h>
-
-typedef unsigned int uint;
+#include <stdlib.h>
 
 //z() is a null-function
 //returns zero in any case
-extern bool Z(uint x, ... );
+extern bool Z(uint32_t x, ... );
 
 //s() is a successor function
 //returns x+1
-extern uint S(uint x);
+extern int64_t S(uint32_t x);
 
 //identify function P[k, m](x1, x2, x3, ..., xm)
 //returns xk
-extern uint P(uint k, uint m, ... );
+extern int64_t P(uint32_t k, uint32_t m, ... );
