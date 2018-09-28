@@ -27,27 +27,17 @@ int64_t evaluate(struct Function func, struct Arguments arg) {
                 result = Z(arg.args[0]); break;
             case 'S':
                 result = S(arg.args[0]); break;
-            case 'R':
+            case 'P':
                 //name of P looks like P,k,m where k and m are integer values
                 result = P(arg.args[2] - '0', arg.args[4] - '0', arg.args); break;
-
-                //найти и использовать функции, определенные выше во входном файле
             default:
-                fprintf(stderr, "Error: Unknown operator %c", func.name[0]);
-                ind = 1;
-                while(func.name[ind] != '\0') {
-                    fprintf(stderr, "%c", func.name[ind]);
-                    ind++;
-                }
-                fprintf(stderr, "\n");
+                fprintf(stderr, "Error: Unknown primitive function %c", func.name[0]);
         }
 
     } else {
         switch (func.operator) {
             case '0':
                 result = 1; break;
-            case 'P':
-                result = 2; break;
             case 'R':
                 result = 3; break;
             case 'M':
@@ -58,7 +48,13 @@ int64_t evaluate(struct Function func, struct Arguments arg) {
     }
 
     if (result < 0) {
-        fprintf(stderr, "Error: Something went wrong when evaluating primitive functions");
+        fprintf(stderr, "Error: Something went wrong when evaluating function %c", func.name[0]);
+        ind = 1;
+        while(func.name[ind] != '\0') {
+            fprintf(stderr, "%c", func.name[ind]);
+            ind++;
+        }
+        fprintf(stderr, "\n");
         _Exit(1);
     }
 
