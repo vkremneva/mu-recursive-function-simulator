@@ -1,7 +1,7 @@
 #pragma once
 
 #include <stdlib.h>
-#include "recursive_functions.h"
+#include "basis.h"
 
 #define NAME_SIZE 32
 #define MAX_ARITY 127
