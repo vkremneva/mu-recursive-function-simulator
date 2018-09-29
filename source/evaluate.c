@@ -15,15 +15,15 @@ int64_t evaluate(struct Function func, struct Arguments arg) {
             case 'P': {
                 //name of P looks like P,k,m where k and m are integer values
                 char ch;
-                int64_t i = 2, number = 0;
+                int64_t i = 2, k = 0, m = 0;
+
                 while (isdigit(ch = func.name[i++]))
-                    number = number*10 + (ch - '0');
+                    k = k*10 + (ch - '0');
 
-                while ((ch)) {
+                while (isdigit(ch = func.name[i++]))
+                    m = m*10 + (ch - '0');
 
-                }
-
-                result = P(arg.args[2] - '0', arg.args[4] - '0', arg.args);
+                result = P(k, m, arg.args);
                 break;
             }
             default:
@@ -33,16 +33,16 @@ int64_t evaluate(struct Function func, struct Arguments arg) {
     } else {
         switch (func.operator[0]) {
             case '0':
-                result = 1;
+                result = O(func.left->func[0], *func.right, arg);
                 break;
             case 'R':
-                result = 3;
+                result = R(func.left->func[0], func.right->func[0], arg);
                 break;
             case 'M':
-                result = 4;
+                result = M(func, arg);
                 break;
             default:
-                fprintf(stderr, "Error: Unknown operator %c \n", func.operator);
+                fprintf(stderr, "Error: Unknown operator %s \n", func.operator);
         }
     }
 

@@ -61,7 +61,17 @@ void test_S() {
 }
 
 void test_P() {
+    struct Function p;
+    p.is_primitive = true;
+    strcpy(p.name, "P,4,10");
 
+    struct Arguments arg;
+    arg.arity = 10;
+
+    for (int i = 0; i < 10; i++)
+        arg.args[i] = i+1;
+
+    assert(evaluate(p, arg) == 4);
 }
 
 int main() {
@@ -69,12 +79,4 @@ int main() {
 	test_S();
 	test_P();
 	return 0;
-}
-
-void test_1() {
-	struct Function func1;
-	func1.is_primitive = false;
-	strcpy(func1.name, "func_1");
-	strcpy(func1.operator, "O");
-	func1.left = 0;
 }
