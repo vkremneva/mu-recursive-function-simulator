@@ -1,22 +1,5 @@
 #include "function.h"
 
-struct Function {
-    char name[NAME_SIZE];
-    char operator;
-    bool is_primitive;
-    struct Operand *left;
-    struct Operand *right;
-};
-
-struct Operand {
-    struct Functin *func;
-};
-
-struct Arguments {
-    int8_t arity;
-    int64_t args[MAX_ARITY];
-};
-
 int64_t evaluate(struct Function func, struct Arguments arg) {
     int64_t result = -1;
     int8_t ind;
@@ -31,7 +14,7 @@ int64_t evaluate(struct Function func, struct Arguments arg) {
                 //name of P looks like P,k,m where k and m are integer values
                 result = P(arg.args[2] - '0', arg.args[4] - '0', arg.args); break;
             default:
-                fprintf(stderr, "Error: Unknown primitive function %c", func.name[0]);
+                fprintf(stderr, "Error: Unknown primitive function %c \n", func.name[0]);
         }
 
     } else {
@@ -43,7 +26,7 @@ int64_t evaluate(struct Function func, struct Arguments arg) {
             case 'M':
                 result = 4; break;
             default:
-                fprintf(stderr, "Error: Unknown operator %c", func.operator);
+                fprintf(stderr, "Error: Unknown operator %c \n", func.operator);
         }
     }
 
