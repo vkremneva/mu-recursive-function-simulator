@@ -43,6 +43,7 @@ int64_t evaluate(struct Function func, struct Arguments arg) {
                 break;
             default:
                 fprintf(stderr, "Error: Unknown operator %s \n", func.operator);
+                _Exit(1);
         }
     }
 
