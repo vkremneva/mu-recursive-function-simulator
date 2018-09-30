@@ -33,10 +33,10 @@ int64_t evaluate(struct Function func, struct Arguments arg) {
     } else {
         switch (func.operator[0]) {
             case '0':
-                result = O(func.left->func[0], *func.right, arg);
+                result = O(*(func.left->func[0]), *func.right, arg);
                 break;
             case 'R':
-                result = R(func.left->func[0], func.right->func[0], arg);
+                result = R(*(func.left->func[0]), *(func.right->func[0]), arg);
                 break;
             case 'M':
                 result = M(func, arg);
@@ -66,7 +66,7 @@ int64_t O(struct Function h, struct Operand g, struct Arguments arg){
     args_for_h.arity = g.arity;
 
     for (int i = 0; i < g.arity; i++)
-        args_for_h.args[i] = evaluate(g.func[i], arg);
+        args_for_h.args[i] = evaluate(*g.func[i], arg);
 
     return evaluate(h, args_for_h);
 }
@@ -112,7 +112,13 @@ int64_t M(struct Function g, struct Arguments arg) {
     new_arg.args[0] = -1;
 
     do {
+        if (new_arg.args[0] == INT64_MAX) {
+            fprintf(stderr, "Error: Function in M operator does not converge");
+            _Exit(1);
+        }
+
         new_arg.args[0]++;
+
     } while (evaluate(g, new_arg) != 0);
 
     return new_arg.args[0];

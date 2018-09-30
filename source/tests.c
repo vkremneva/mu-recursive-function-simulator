@@ -3,6 +3,8 @@
 
 #include "evaluate.h"
 
+struct Function s, z;
+
 void test_Z() {
     struct Function z;
     z.is_primitive = true;
@@ -52,11 +54,9 @@ void test_O() {
     struct Function h;
     h.is_primitive = true;
 
-    struct Function s;
     s.is_primitive = true;
     strcpy(s.name, "S");
 
-    struct Function z;
     z.is_primitive = true;
     strcpy(z.name, "Z");
 
@@ -66,9 +66,9 @@ void test_O() {
 
     struct Operand g;
     g.arity = 3;
-    g.func[0] = s;
-    g.func[1] = z;
-    g.func[2] = s;
+    g.func[0] = &s;
+    g.func[1] = &z;
+    g.func[2] = &s;
 
     strcpy(h.name, "P,1,3");
     assert (O(h, g, arg) == 8);

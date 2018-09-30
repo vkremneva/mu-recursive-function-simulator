@@ -1,6 +1,11 @@
 #include "basis.h"
 
-bool Z(struct Arguments args) {return 0;}
+bool Z(struct Arguments arg) { 
+    if (arg.args[0] == 0)
+        return (bool)arg.args[0];
+    else
+        return !((bool)arg.args[0]);
+}
 
 int64_t S(int64_t x) {return x+1;}
 

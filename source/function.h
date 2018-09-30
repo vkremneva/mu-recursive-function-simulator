@@ -18,7 +18,7 @@ struct Function {
 
 struct Operand {
     int8_t arity;
-    struct Function func[MAX_ARITY];
+    struct Function *func[MAX_ARITY];
 };
 
 struct Arguments {
