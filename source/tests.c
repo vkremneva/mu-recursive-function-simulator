@@ -64,22 +64,20 @@ void test_O() {
     arg.arity = 1;
     arg.args[0] = 7;
 
-    struct Operand g[3];
-    g[0].arity = 1;
-    g[0].func[0] = s;
-    g[1].arity = 1;
-    g[1].func[1] = z;
-    g[2].arity = 1;
-    g[2].func[2] = s;
+    struct Operand g;
+    g.arity = 3;
+    g.func[0] = s;
+    g.func[1] = z;
+    g.func[2] = s;
 
     strcpy(h.name, "P,1,3");
-    assert (O(h, *g, arg) == 8);
+    assert (O(h, g, arg) == 8);
 
     strcpy(h.name, "P,2,3");
-    assert (O(h, *g, arg) == 0);
+    assert (O(h, g, arg) == 0);
 
     strcpy(h.name, "P,3,3");
-    assert (O(h, *g, arg) == 8);
+    assert (O(h, g, arg) == 8);
 }
 
 void test_R() {
