@@ -1,9 +1,10 @@
-#include<string.h>
+#include <string.h>
 #include <assert.h>
 #include <unistd.h>
 
 #include "parser.h"
 #include "evaluate.h"
+#include "funclist.h"
 
 struct Function s, z;
 
@@ -121,38 +122,6 @@ void test_basis() {
 }
 
 
-
-struct FuncList *register_basis_functions() {
-    struct FuncList *registered_functions = (struct FuncList*)malloc(sizeof(struct FuncList));
-    struct FuncList *node = registered_functions;
-    struct Function *func = (struct Function*)malloc(sizeof(struct Function));
-
-    strcpy(func->name, "S");
-    func->is_primitive = true;
-    node->this = func;
-
-    node->next = (struct FuncList*)malloc(sizeof(struct FuncList));
-    node = node->next;
-
-    func = (struct Function*)malloc(sizeof(struct Function));
-    strcpy(func->name, "Z");
-    func->is_primitive = true;
-    node->this = func;
-    node->next = NULL;
-
-    return registered_functions;
-}
-
-void delete_funclist(struct FuncList* list) {
-    struct FuncList *next;
-    while (list != NULL) {
-        next = list->next;
-        free(list->this);
-        free(list);
-        list = next;
-    }
-}
-
 void test_parser(FILE *stream) {
     struct FuncList *registered_functions = register_basis_functions();
     parse(stream, registered_functions);
@@ -162,9 +131,8 @@ void test_parser(FILE *stream) {
 }
 
 
-
 int main() {
-    //test_basis();
+    test_basis();
 
     FILE *input = fopen("../input.txt", "r");
     test_parser(input);

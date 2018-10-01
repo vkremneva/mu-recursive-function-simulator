@@ -5,7 +5,7 @@
 #include "ctype.h"
 #include "function.h"
 #include "string.h"
-#include "structures.h"
+#include "funclist.h"
 
 enum PARSER_STATUS {
     _parser_status_read_name,

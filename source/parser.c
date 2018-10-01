@@ -27,6 +27,13 @@ struct Function *find_function(char *name, struct FuncList *func_list, struct Fu
         }
         func_list = func_list->next;
     } while (func_list->next != NULL);
+
+    //where is my mind?
+    if (func_list->next == NULL) {
+        if (strcmp(name, func_list->this->name) == 0) {
+            return func_list->this;
+        }
+    }
     *last_node = func_list;
     return NULL;
 }
