@@ -32,11 +32,11 @@ int64_t evaluate(struct Function func, struct Arguments arg) {
 
     } else {
         switch (func.operator[0]) {
-            case '0':
-                result = O(*(func.left->func[0]), *func.right, arg);
+            case 'O':
+                result = O(*(func.left.func[0]), func.right, arg);
                 break;
             case 'R':
-                result = R(*(func.left->func[0]), *(func.right->func[0]), arg);
+                result = R(*(func.left.func[0]), *(func.right.func[0]), arg);
                 break;
             case 'M':
                 result = M(func, arg);
