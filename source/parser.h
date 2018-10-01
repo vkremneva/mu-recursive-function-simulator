@@ -5,6 +5,7 @@
 #include "ctype.h"
 #include "function.h"
 #include "string.h"
+#include "structures.h"
 
 enum PARSER_STATUS {
     _parser_status_read_name,
@@ -16,18 +17,11 @@ enum PARSER_STATUS {
     _parser_status_end
 };
 
-// Consider moving to function.h
-struct FuncList {
-    struct Function* this;
-    struct FuncList* next;
-};
-
 //Register new function in FuncList
 void add_function(struct Function *func, struct FuncList *func_list);
 
 // last_node is meaningful only if search returns NULL
 struct Function *find_function(char *name, struct FuncList *func_list, struct FuncList **last_node);
-
 
 //Get non-space character
 int getc_ns(FILE *stream);

@@ -21,12 +21,12 @@ struct Function *find_function(char *name, struct FuncList *func_list, struct Fu
         *last_node = NULL;
         return NULL;
     }
-    while (func_list->next != NULL) {
+    do {
         if (strcmp(name, func_list->this->name) == 0) {
             return func_list->this;
         }
         func_list = func_list->next;
-    }
+    } while (func_list->next != NULL);
     *last_node = func_list;
     return NULL;
 }
@@ -158,7 +158,7 @@ struct Function* parse_definition(FILE *stream, struct FuncList *registered_func
                 new_function->name[0] = '\0';
                 strcpy(new_function->operator, "O");
                 new_function->is_primitive = false;
-                new_function->left = parse_operand(stream, registered_functions); //parse function?
+                new_function->left = parse_operand(stream, registered_functions); //PEP and others alike
                 assert(getc_ns(stream) == ',');
                 new_function->right = parse_operand(stream, registered_functions);
                 assert(getc_ns(stream) == ')');
