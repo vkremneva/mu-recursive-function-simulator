@@ -111,14 +111,17 @@ void test_M() {
     assert(M(g, arg) == 0);
 }
 
-int main() {
+void test_basis() {
     test_Z();
     test_S();
     test_P();
     test_O();
     test_R();
     test_M();
+}
 
+int main() {
+    test_basis();
     return 0;
 }
 
