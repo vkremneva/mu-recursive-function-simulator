@@ -27,7 +27,7 @@ struct Function *find_function(char *name, struct FuncList *func_list, struct Fu
 int getc_ns(FILE *stream);
 
 //Main parser function
-int parse(FILE *stream, struct FuncList *registered_functions);
+void parse(FILE *stream, struct FuncList *registered_functions);
 
 struct Function* parse_declaration(FILE *stream, struct FuncList *registered_functions);
 

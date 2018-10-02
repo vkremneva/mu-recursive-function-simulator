@@ -18,12 +18,7 @@ int main(int argc, char *argv[]) {
 	}
 
     struct FuncList *registered_functions = register_basis_functions();
-    if (parse(finput, registered_functions)) {
-        fprintf(stderr, "\nError: Something went wrong. Please, try another input file.\n");
-        fclose(finput);
-        return 1;
-    }
-
+    parse(finput, registered_functions);
     printf("Load complete. \n");
     fclose(finput);
     int ind = 0;
@@ -86,7 +81,9 @@ int main(int argc, char *argv[]) {
             skip();
         }
     } while (ind != 2);
-	
+
+    delete_funclist(registered_functions);
+
 	return 0;
 }
 
