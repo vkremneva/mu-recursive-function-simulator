@@ -10,7 +10,7 @@
 
 //z() is a null-function
 //returns zero in any case
-bool Z(struct Arguments args);
+int64_t Z(struct Arguments args);
 
 //s() is a successor function
 //returns x+1

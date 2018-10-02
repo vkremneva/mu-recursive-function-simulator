@@ -1,6 +1,6 @@
 #include "basis.h"
 
-bool Z(struct Arguments arg) { 
+int64_t Z(struct Arguments arg) {
     if (arg.args[0] == 0)
         return (bool)arg.args[0];
     else

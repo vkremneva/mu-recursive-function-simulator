@@ -8,13 +8,13 @@ void skip();
 int main(int argc, char *argv[]) {
 	if (argc == 1) {
 		fprintf(stderr, "\nError: Specify file with the input data\n");
-		return 1;
+		return 7;
 	}
 	
 	FILE *finput = fopen(argv[1], "r");
 	if (finput == NULL) {
 		fprintf(stderr, "\nError: Cannot open file: %s\n", argv[1]);
-		return 1;
+		return 8;
 	}
 
     struct FuncList *registered_functions = register_basis_functions();

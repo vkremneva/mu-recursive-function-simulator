@@ -6,7 +6,6 @@
 #include "evaluate.h"
 #include "funclist.h"
 
-struct Function s, z;
 #define SEED 50
 
 void test_Z() {
@@ -53,7 +52,7 @@ void test_P() {
 }
 
 void test_O() {
-    struct Function h;
+    struct Function h, s, z;
     h.is_primitive = true;
 
     s.is_primitive = true;
@@ -131,7 +130,7 @@ void test_parser(FILE *stream, char *name) {
     struct Function *func = find_function(name, registered_functions, &last_node);
     if (func == NULL) {
         printf("No such function");
-        _Exit(1);
+        _Exit(100);
     }
     int64_t res = evaluate(*func, arg);
     assert(res == 0);
