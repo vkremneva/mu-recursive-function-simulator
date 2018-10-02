@@ -59,6 +59,7 @@ struct Function* parse_declaration(FILE *stream, struct FuncList *registered_fun
     //assert(isalpha(name[0])); //whether we want name to start with a letter
     if (c != '=') {
         fprintf(stderr, "\nError: Unexpected character. Expected '=', was %c\n", c);
+        delete_funclist(registered_functions);
         _Exit(9);
     }
 
@@ -67,6 +68,7 @@ struct Function* parse_declaration(FILE *stream, struct FuncList *registered_fun
 
     if (c != '.') {
         fprintf(stderr, "\nError: Unexpected character. Expected '.', was %c\n", c);
+        delete_funclist(registered_functions);
         _Exit(9);
     }
 
@@ -87,6 +89,7 @@ struct Operand parse_operand(FILE *stream, struct FuncList *registered_functions
             c = getc_ns(stream);
             if ((c != ',') && (c != ')')) {
                 fprintf(stderr, "\nError: Unexpected character. Expected ',' or ''), was %c\n", c);
+                delete_funclist(registered_functions);
                 _Exit(9);
             }
         }
@@ -97,6 +100,7 @@ struct Operand parse_operand(FILE *stream, struct FuncList *registered_functions
     }
     else {
         fprintf(stderr, "\nSyntax error while parsing operand\n");
+        delete_funclist(registered_functions);
         _Exit(10);
     }
 
@@ -144,6 +148,7 @@ struct Function* parse_definition(FILE *stream, struct FuncList *registered_func
                     //Projection function needs its parameters
                     if (c != '[') {
                         fprintf(stderr, "\nError: Unexpected character. Expected '[', was %c\n", c);
+                        delete_funclist(registered_functions);
                         _Exit(9);
                     }
                     int k = 0, m = 0;
@@ -152,6 +157,7 @@ struct Function* parse_definition(FILE *stream, struct FuncList *registered_func
                     }
                     if (c != ',') {
                         fprintf(stderr, "\nError: Unexpected character. Expected ',', was %c\n", c);
+                        delete_funclist(registered_functions);
                         _Exit(9);
                     }
                     while (isdigit(c = getc_ns(stream))) {
@@ -159,10 +165,12 @@ struct Function* parse_definition(FILE *stream, struct FuncList *registered_func
                     }
                     if (c != ']') {
                         fprintf(stderr, "\nError: Unexpected character. Expected ']', was %c\n", c);
+                        delete_funclist(registered_functions);
                         _Exit(9);
                     }
                     if (sprintf(name, "P,%d,%d", k, m) <= 0) {
                         fprintf(stderr, "\nError: Fail to write the name of P[]() function\n");
+                        delete_funclist(registered_functions);
                         _Exit(11);
                     }
                 }
@@ -179,6 +187,7 @@ struct Function* parse_definition(FILE *stream, struct FuncList *registered_func
                 }
                 if (new_function == NULL) {
                     fprintf(stderr, "\nError: Unknown name %s\n", name);
+                    delete_funclist(registered_functions);
                     _Exit(12);
                 }
                 status = _parser_status_end;
@@ -188,6 +197,7 @@ struct Function* parse_definition(FILE *stream, struct FuncList *registered_func
             case _parser_status_O_operator: {
                 if (c != '(') {
                     fprintf(stderr, "\nError: Unexpected character. Expected '(', was %c\n", c);
+                    delete_funclist(registered_functions);
                     _Exit(9);
                 }
 
@@ -201,6 +211,7 @@ struct Function* parse_definition(FILE *stream, struct FuncList *registered_func
                 c = getc_ns(stream);
                 if (c != ',') {
                     fprintf(stderr, "\nError: Unexpected character. Expected ',', was %c\n", c);
+                    delete_funclist(registered_functions);
                     _Exit(9);
                 }
 
@@ -209,6 +220,7 @@ struct Function* parse_definition(FILE *stream, struct FuncList *registered_func
                 c = getc_ns(stream);
                 if (c != ')') {
                     fprintf(stderr, "\nError: Unexpected character. Expected ')', was %c\n", c);
+                    delete_funclist(registered_functions);
                     _Exit(9);
                 }
 
@@ -220,6 +232,7 @@ struct Function* parse_definition(FILE *stream, struct FuncList *registered_func
             case _parser_status_R_operator: {
                 if (c != '(') {
                     fprintf(stderr, "\nError: Unexpected character. Expected '(', was %c\n", c);
+                    delete_funclist(registered_functions);
                     _Exit(9);
                 }
 
@@ -232,6 +245,7 @@ struct Function* parse_definition(FILE *stream, struct FuncList *registered_func
                 c = getc_ns(stream);
                 if (c != ',') {
                     fprintf(stderr, "\nError: Unexpected character. Expected ',', was %c\n", c);
+                    delete_funclist(registered_functions);
                     _Exit(9);
                 }
 
@@ -240,6 +254,7 @@ struct Function* parse_definition(FILE *stream, struct FuncList *registered_func
                 c = getc_ns(stream);
                 if (c != ')') {
                     fprintf(stderr, "\nError: Unexpected character. Expected ')', was %c\n", c);
+                    delete_funclist(registered_functions);
                     _Exit(9);
                 }
                 add_function(new_function, registered_functions);
@@ -250,6 +265,7 @@ struct Function* parse_definition(FILE *stream, struct FuncList *registered_func
             case _parser_status_M_operator: {
                 if (c != '(') {
                     fprintf(stderr, "\nError: Unexpected character. Expected '(', was %c\n", c);
+                    delete_funclist(registered_functions);
                     _Exit(9);
                 }
                 new_function = (struct Function*)malloc(sizeof(struct Function));
@@ -261,6 +277,7 @@ struct Function* parse_definition(FILE *stream, struct FuncList *registered_func
                 c = getc_ns(stream);
                 if (c != ')') {
                     fprintf(stderr, "\nError: Unexpected character. Expected ')', was %c\n", c);
+                    delete_funclist(registered_functions);
                     _Exit(9);
                 }
 
