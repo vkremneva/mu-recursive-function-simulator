@@ -7,19 +7,20 @@
 #include "funclist.h"
 
 struct Function s, z;
+#define SEED 50
 
 void test_Z() {
     struct Function z;
     z.is_primitive = true;
     strcpy(z.name, "Z");
+
     struct Arguments arg;
-    arg.arity = 2;
-    arg.args[0] = 4, arg.args[1] = 2;
+    arg.arity = (int8_t)SEED;
+    for (int i = 0; i < SEED; i++) {
+        arg.args[i] = 0 + rand()%SEED;
+    }
+
     evaluate(z, arg);
-
-    assert(evaluate(z, arg) == 0);
-
-    arg.arity = 0;
     assert(evaluate(z, arg) == 0);
 }
 
@@ -28,13 +29,13 @@ void test_S() {
     s.is_primitive = true;
     strcpy(s.name, "S");
 
-    struct Arguments arg;
-    arg.arity = 0;
+    int64_t num = 0 + rand()%SEED;
 
-    for (int i = 0; i < 10; ++i) {
-        arg.args[0] = i;
-        assert(evaluate(s, arg) == i + 1);
-    }
+    struct Arguments arg;
+    arg.arity = 1;
+    arg.args[0] = num;
+
+    assert(evaluate(s, arg) == num + 1);
 }
 
 void test_P() {
@@ -44,11 +45,11 @@ void test_P() {
 
     struct Arguments arg;
     arg.arity = 10;
+    arg.args[0] = 0 + rand()%SEED;
+    for (int i = 1; i < 10; i++)
+        arg.args[i] = arg.args[0] + i;
 
-    for (int i = 0; i < 10; i++)
-        arg.args[i] = i+1;
-
-    assert(evaluate(p, arg) == 4);
+    assert(evaluate(p, arg) == arg.args[0] + 3);
 }
 
 void test_O() {
@@ -122,20 +123,29 @@ void test_basis() {
 }
 
 
-void test_parser(FILE *stream) {
+void test_parser(FILE *stream, char *name) {
     struct FuncList *registered_functions = register_basis_functions();
     parse(stream, registered_functions);
     struct Arguments arg = {2, {0, 0}};
-    assert(evaluate(*find_function("sum", registered_functions, 0), arg) == 0);
+    struct FuncList *last_node;
+    struct Function *func = find_function(name, registered_functions, &last_node);
+    if (func == NULL) {
+        printf("No such function");
+        _Exit(1);
+    }
+    int64_t res = evaluate(*func, arg);
+    assert(res == 0);
     delete_funclist(registered_functions);
+
 }
 
 
 int main() {
+    srand(SEED);
     test_basis();
 
     FILE *input = fopen("../input.txt", "r");
-    test_parser(input);
+    test_parser(input, "sum");
     fclose(input);
     return 0;
 }
