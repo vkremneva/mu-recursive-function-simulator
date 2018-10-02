@@ -27,7 +27,7 @@ int64_t evaluate(struct Function func, struct Arguments arg) {
                 break;
             }
             default:
-                fprintf(stderr, "Error: Unknown primitive function %c \n", func.name[0]);
+                fprintf(stderr, "\nError: Unknown primitive function %c \n", func.name[0]);
         }
 
     } else {
@@ -48,7 +48,7 @@ int64_t evaluate(struct Function func, struct Arguments arg) {
     }
 
     if (result < 0) {
-        fprintf(stderr, "Error: Something went wrong when evaluating function %c", func.name[0]);
+        fprintf(stderr, "\nError: Something went wrong when evaluating function %c\n", func.name[0]);
         ind = 1;
         while (func.name[ind] != '\0') {
             fprintf(stderr, "%c", func.name[ind]);
@@ -73,7 +73,7 @@ int64_t O(struct Function h, struct Operand g, struct Arguments arg){
 
 int64_t R(struct Function h, struct Function g, struct Arguments arg){
     if (arg.arity <= 1) {
-        fprintf(stderr, "Error: Arity can't be 1 or less. Was %d.\n", arg.arity);
+        fprintf(stderr, "\nError: Arity can't be 1 or less. Was %d.\n", arg.arity);
         _Exit(1);
     }
 
@@ -113,7 +113,7 @@ int64_t M(struct Function g, struct Arguments arg) {
 
     do {
         if (new_arg.args[0] == INT64_MAX) {
-            fprintf(stderr, "Error: Function in M operator does not converge");
+            fprintf(stderr, "\nError: Function in M operator does not converge\n");
             _Exit(1);
         }
 

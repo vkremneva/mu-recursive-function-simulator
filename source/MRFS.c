@@ -49,12 +49,24 @@ int main(int argc, char *argv[]) {
                 while (isdigit(c = getc_ns(stdin))) {
                     k = k * 10 + c - '0';
                 }
-                assert(c == ','); //PEP
+                if (c != ',') {
+                    fprintf(stderr, "\nError: Unexpected character. Expected ',', was %c\n", c);
+                    skip();
+                    continue;
+                }
                 while (isdigit(c = getc_ns(stdin))) {
                     m = m * 10 + c - '0';
                 }
-                assert(c == ']'); //PEP
-                assert(sprintf(name, "P,%d,%d", k, m) > 0);
+                if (c != ']') {
+                    fprintf(stderr, "\nError: Unexpected character. Expected ']', was %c\n", c);
+                    skip();
+                    continue;
+                }
+                if (sprintf(name, "P,%d,%d", k, m) <= 0) {
+                    fprintf(stderr, "\nError: Fail to write the name of P[]() function\n");
+                    skip();
+                    continue;
+                }
                 func.is_primitive = true;
                 strcpy(func.name, name);
             }
@@ -74,6 +86,8 @@ int main(int argc, char *argv[]) {
             struct Arguments arg = read_arguments((char)c, &err);
             if (err) {
                 fprintf(stderr, "\nError: Incorrect arguments.\n");
+                skip();
+                continue;
             } else {
                 result = evaluate(func, arg);
                 printf("\nResult: %lld.\n", result);
@@ -95,7 +109,7 @@ struct Arguments read_arguments(char current, bool *error) {
 
 
     int ch = current;
-    if (ch == ']') getchar();
+    if (ch == ']') ch = getchar();
     do {
         if (isdigit(ch))
             arg.args[arg.arity - 1] = arg.args[arg.arity - 1] * 10 + ch - '0';
