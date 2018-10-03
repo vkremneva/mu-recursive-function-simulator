@@ -167,11 +167,7 @@ struct Function* parse_definition(FILE *stream, struct FuncList *registered_func
                         delete_funclist(registered_functions);
                         _Exit(9);
                     }
-                    if (sprintf(name, "P,%d,%d", k, m) <= 0) {
-                        fprintf(stderr, "\nError: Fail to write the name of P[]() function\n");
-                        delete_funclist(registered_functions);
-                        _Exit(11);
-                    }
+                    sprintf(name, "P,%d,%d", k, m);
                 }
 
                 //check whether new function is already present
