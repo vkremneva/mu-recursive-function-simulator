@@ -80,7 +80,6 @@ struct Operand parse_operand(FILE *stream, struct FuncList *registered_functions
     struct Operand op;
     op.arity = 0;
 
-    //operator '(' was already read
     //check if the operand is a tuple
     int c = getc_ns(stream);
     if (c == '(') {

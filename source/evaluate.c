@@ -40,7 +40,7 @@ int64_t evaluate(struct Function func, struct Arguments arg) {
                 result = R(*(func.left.func[0]), *(func.right.func[0]), arg);
                 break;
             case 'M':
-                result = M(func, arg);
+                result = M(*(func.left.func[0]), arg);
                 break;
             default:
                 fprintf(stderr, "Error: Unknown operator %s \n", func.operator);
@@ -74,7 +74,7 @@ int64_t O(struct Function h, struct Operand g, struct Arguments arg){
 
 int64_t R(struct Function h, struct Function g, struct Arguments arg){
     if (arg.arity <= 1) {
-        fprintf(stderr, "\nError: Arity can't be 1 or less. Was %d.\n", arg.arity);
+        fprintf(stderr, "\nError: Arity of g function in R operator can't be 1 or less. Was %d.\n", arg.arity);
         _Exit(5);
     }
 
@@ -107,18 +107,18 @@ int64_t R(struct Function h, struct Function g, struct Arguments arg){
 int64_t M(struct Function g, struct Arguments arg) {
     struct Arguments new_arg;
 
-    new_arg.arity = arg.arity;
-    for (int i = 1; i < new_arg.arity; i++)
-        new_arg.args[i] = arg.args[i];
+    new_arg.arity = arg.arity + (int8_t)1;
+    for (int i = 1; i <= new_arg.arity; i++)
+        new_arg.args[i] = arg.args[i - 1];
     new_arg.args[0] = -1;
 
     do {
-        if (new_arg.args[0] == INT64_MAX) {
+        if (new_arg.args[0] == 128) {
             fprintf(stderr, "\nError: Function in M operator does not converge\n");
             _Exit(6);
         }
 
-        new_arg.args[0]++;
+        new_arg.args[0] = new_arg.args[0] + 1;
 
     } while (evaluate(g, new_arg) != 0);
 

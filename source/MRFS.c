@@ -23,7 +23,7 @@ int main(int argc, char *argv[]) {
     fclose(finput);
     int ind = 0;
     do {
-        printf("Press 1 if you want to evaluate something and 2 if you want to quit: \n");
+        printf("\nPress 1 if you want to evaluate something and 2 if you want to quit: \n");
         ind = getchar() - '0';
 
         if ((ind != 1) && (ind != 2))
@@ -90,7 +90,7 @@ int main(int argc, char *argv[]) {
                 continue;
             } else {
                 result = evaluate(func, arg);
-                printf("\nResult: %lld.\n", result);
+                printf("Result: %d.\n", result);
             }
             skip();
         }
