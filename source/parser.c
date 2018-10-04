@@ -48,11 +48,17 @@ void parse(FILE *stream, struct FuncList *registered_functions) {
 }
 
 struct Function* parse_declaration(FILE *stream, struct FuncList *registered_functions) {
-    char name[NAME_SIZE];
+    char name[NAME_SIZE + 1];
     int i = 0, c;
 
     while (isalnum(c = getc_ns(stream))) {
-        name[i++] = (char)c;
+        if (i == NAME_SIZE) {
+            fprintf(stderr, "\nError: Name limits exceeded\n");
+            delete_funclist(registered_functions);
+            _Exit(11);
+        }
+        else
+            name[i++] = (char)c;
     }
     name[i] = '\0';
 
@@ -110,7 +116,7 @@ struct Function* parse_definition(FILE *stream, struct FuncList *registered_func
     enum PARSER_STATUS status = _parser_status_read_name;
 
     int c = 0;
-    char name[NAME_SIZE] = {0};
+    char name[NAME_SIZE + 1] = {0};
 
     struct Function *new_function = NULL;
 
@@ -119,7 +125,12 @@ struct Function* parse_definition(FILE *stream, struct FuncList *registered_func
             case _parser_status_read_name: {
                 int i = 0;
                 while (isalnum(c = getc_ns(stream))) {
-                    name[i++] = (char)c;
+                    if (i == NAME_SIZE) {
+                        fprintf(stderr, "\nError: Name limits exceeded\n");
+                        delete_funclist(registered_functions);
+                        _Exit(11);
+                    } else
+                        name[i++] = (char)c;
                 }
                 name[i] = '\0';
                 if (c == '.' || c == ',' || c == ')') {

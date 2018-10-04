@@ -98,7 +98,7 @@ int64_t R(struct Function h, struct Function g, struct Arguments arg){
         final_arg.arity = arg.arity + (int8_t)1;
         final_arg.args[0] = arg0;
         for (int i = 0; i < arg.arity; i++)
-            final_arg.args[i+1] = arg.args[i];
+            final_arg.args[i+1] = step_arg.args[i];
 
         return evaluate(h, final_arg);
     }
